@@ -4,16 +4,18 @@ import BurgerIngradient from './BurgerIngredient/BurgerIngredient';
 
 const burger = (props) => {
 
-    const transformedIngredients = Object.keys(props.ingredients)
+    let transformedIngredients = Object.keys(props.ingredients)
     .map(igKey => {
-        console.log()
-        console.log("key :", igKey);
-        console.log(Array(props.ingredients[igKey]));
          return [...Array(props.ingredients[igKey])].map((_, i) => {
              return <BurgerIngradient key={igKey + i} type={igKey} />;
-         })   
-    });
+         })  
+    }).reduce((prev, current) => {
+        return prev.concat(current)
+    }, []);
 
+    if (transformedIngredients.length === 0) {
+        transformedIngredients = <div> Please start adding ingredients </div>
+    }
     return(
         <div className='Burger'>
             <BurgerIngradient type="bread-top"/>
